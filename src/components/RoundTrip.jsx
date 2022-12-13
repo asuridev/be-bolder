@@ -5,18 +5,14 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
 import { Box } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
-import {setRoundTrip, setOnlyWay} from '../state/roundTripSlice'
+import {setRoundTrip} from '../state/roundTripSlice'
 
 export  function RoundTrip() {
   const dispatach = useDispatch();
   const {value} = useSelector(state => state.roundTripe)
 
   const handleChange = (event) => {
-     if(event.target.value === 'rt'){
-       dispatach(setRoundTrip());
-     }else if (event.target.value === 'ow'){
-       dispatach(setOnlyWay());
-     }
+       dispatach(setRoundTrip(event.target.value));
   };
 
   return (

@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit"
 
 const initialState ={
-    value : 'ow'
+    value : 'rt'
 }
 
 const roundTripSlice = createSlice({
@@ -9,13 +9,10 @@ const roundTripSlice = createSlice({
   initialState,
   reducers:{
     setRoundTrip(state,action){
-      state.value = 'rt'
+      state.value = action.payload;
     },
-    setOnlyWay(state,action){
-      state.value = 'ow'
-    }
   }
 })
 
 export const roundTripReducer = roundTripSlice.reducer;
-export const {setRoundTrip,setOnlyWay} = roundTripSlice.actions;
+export const {setRoundTrip} = roundTripSlice.actions;

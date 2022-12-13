@@ -1,10 +1,14 @@
+import { ResponsiveAppBar } from "./components/AppBar"
+import { Hero } from "./components/Hero"
+
 
 
 function App() {
   
   return (
     <div>
-     <h1>Hola be-bolder</h1>
+      <ResponsiveAppBar/>
+      <Hero/>
     </div>
   )
 }

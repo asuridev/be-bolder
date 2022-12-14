@@ -1,18 +1,23 @@
 import * as React from "react";
-import Button from "@mui/material/Button";
 import Menu from "@mui/material/Menu";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import RemoveCircleOutlineIcon from "@mui/icons-material/RemoveCircleOutline";
+import { Box, Divider, IconButton, TextField, Typography } from "@mui/material";
+import { useDispatch, useSelector } from "react-redux";
 import {
-  Box,
-  Divider,
-  IconButton,
-  TextField,
-  Typography,
-} from "@mui/material";
+  decrementAdults,
+  decrementBabies,
+  decrementKids,
+  incrementAdults,
+  incrementBabies,
+  incrementKids,
+} from "../state/passengersSlice";
 
 export function How() {
   const [anchorEl, setAnchorEl] = React.useState(null);
+  const { adults, kids, babies } = useSelector((state) => state.passengers);
+  const dispatch = useDispatch();
+
   const open = Boolean(anchorEl);
 
   const handleClick = (event) => {
@@ -21,6 +26,37 @@ export function How() {
 
   const handleClose = () => {
     setAnchorEl(null);
+  };
+
+  const onAddAdults = () => {
+    dispatch(incrementAdults());
+  };
+
+  const onSubAdults = () => {
+    if (adults > 1) {
+      dispatch(decrementAdults());
+    }
+  };
+
+  const onAddKids = () => {
+    dispatch(incrementKids());
+  };
+
+  const onSubKids = () => {
+    if (kids > 0) {
+      dispatch(decrementKids());
+    }
+  };
+
+  const onAddBabies = () => {
+    if(babies < adults){
+      dispatch(incrementBabies());
+    }
+  };
+  const onSubBabies = () => {
+    if (babies > 0) {
+      dispatch(decrementBabies());
+    }
   };
 
   return (
@@ -37,6 +73,7 @@ export function How() {
           onClick={handleClick}
           label="Pasajeros"
           variant="standard"
+          value={`${adults + kids} Pasajeros`}
         />
       </Box>
 
@@ -50,17 +87,17 @@ export function How() {
         }}
       >
         <Box sx={{ width: "320px", padding: "1rem" }}>
-
           {/* adulto */}
           <Box
             sx={{
               display: "flex",
               alignItems: "center",
               justifyContent: "space-between",
+              marginBottom: ".5rem",
             }}
           >
             <Box>
-              <Typography sx={{ lineHeight: 0.5 }} variant="h6">
+              <Typography sx={{ lineHeight: 1 }} variant="h6">
                 Adultos
               </Typography>
               <Typography sx={{}} variant="body2">
@@ -74,29 +111,30 @@ export function How() {
                 alignItems: "center",
               }}
             >
-              <IconButton>
-                <AddCircleOutlineIcon />
-              </IconButton>
-              <Typography sx={{ lineHeight: 0.5 }} variant="h6">
-                1
-              </Typography>
-              <IconButton>
+              <IconButton onClick={onSubAdults}>
                 <RemoveCircleOutlineIcon />
+              </IconButton>
+              <Typography sx={{ lineHeight: 1 }} variant="h6">
+                {adults}
+              </Typography>
+              <IconButton onClick={onAddAdults}>
+                <AddCircleOutlineIcon />
               </IconButton>
             </Box>
           </Box>
 
-          <Divider sx={{marginBottom:'.5rem'}}/>
+          <Divider sx={{ marginBottom: ".5rem" }} />
           {/* niños */}
           <Box
             sx={{
               display: "flex",
               alignItems: "center",
               justifyContent: "space-between",
+              marginBottom: ".5rem",
             }}
           >
             <Box>
-              <Typography sx={{ lineHeight: 0.5 }} variant="h6">
+              <Typography sx={{ lineHeight: 1 }} variant="h6">
                 Niños
               </Typography>
               <Typography sx={{}} variant="body2">
@@ -110,30 +148,31 @@ export function How() {
                 alignItems: "center",
               }}
             >
-              <IconButton>
-                <AddCircleOutlineIcon />
-              </IconButton>
-              <Typography sx={{ lineHeight: 0.5 }} variant="h6">
-                1
-              </Typography>
-              <IconButton>
+              <IconButton onClick={onSubKids}>
                 <RemoveCircleOutlineIcon />
+              </IconButton>
+              <Typography sx={{ lineHeight: 1 }} variant="h6">
+                {kids}
+              </Typography>
+              <IconButton onClick={onAddKids}>
+                <AddCircleOutlineIcon />
               </IconButton>
             </Box>
           </Box>
 
-          <Divider sx={{marginBottom:'.5rem'}}/>
-    
+          <Divider sx={{ marginBottom: ".5rem" }} />
+
           {/* bebe */}
           <Box
             sx={{
               display: "flex",
               alignItems: "center",
               justifyContent: "space-between",
+              marginBottom: ".5rem",
             }}
           >
             <Box>
-              <Typography sx={{ lineHeight: 0.5 }} variant="h6">
+              <Typography sx={{ lineHeight: 1 }} variant="h6">
                 Bebes
               </Typography>
               <Typography sx={{}} variant="body2">
@@ -147,22 +186,18 @@ export function How() {
                 alignItems: "center",
               }}
             >
-              <IconButton>
-                <AddCircleOutlineIcon />
-              </IconButton>
-              <Typography sx={{ lineHeight: 0.5 }} variant="h6">
-                1
-              </Typography>
-              <IconButton>
+              <IconButton onClick={onSubBabies}>
                 <RemoveCircleOutlineIcon />
+              </IconButton>
+              <Typography sx={{ lineHeight: 1 }} variant="h6">
+                {babies}
+              </Typography>
+              <IconButton onClick={onAddBabies}>
+                <AddCircleOutlineIcon />
               </IconButton>
             </Box>
           </Box>
-          
         </Box>
-        {/* <MenuItem onClick={handleClose}>Profile</MenuItem>
-          <MenuItem onClick={handleClose}>My account</MenuItem>
-          <MenuItem onClick={handleClose}>Logout</MenuItem> */}
       </Menu>
     </div>
   );

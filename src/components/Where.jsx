@@ -5,11 +5,10 @@ import { Box, Typography } from "@mui/material";
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "../firebase/config";
 import { setcityDestination, setCitySource } from "../state/citiesSlice";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 export function Where() {
-  const [value1, setValue1] = React.useState(null);
-  const [value2, setValue2] = React.useState(null);
+  const {citySource,cityDestination} = useSelector(state => state.cities);
   const [cities, setCities] = React.useState([]); 
   const [source, setSource] = React.useState([]); 
   const [destination, setDestination] = React.useState([]); 
@@ -35,8 +34,7 @@ export function Where() {
   const onChangeOrigen = (e, newValue) => {
     console.log(newValue);
     dispatch(setCitySource(newValue));
-    setValue1(newValue);
-    setValue2(null);
+    dispatch(setcityDestination(null));
     const cityOrigin = cities.find( city => city.name === newValue );
     const cs = cityOrigin?.link.map(name => name) || [];
     setDestination([...cs]);
@@ -45,7 +43,6 @@ export function Where() {
   const onChangeDestino = (e, newValue)=>{
     console.log(newValue);
     dispatch(setcityDestination(newValue));
-    setValue2(newValue);
   }
 
   return (
@@ -58,7 +55,7 @@ export function Where() {
           <Autocomplete
             disablePortal
             onChange={onChangeOrigen}
-             value={value1}
+             value={citySource}
             id="combo-box-demo"
             options={source}
             sx={{ width: 180 }}
@@ -71,7 +68,7 @@ export function Where() {
           <Autocomplete
             disablePortal
             onChange={onChangeDestino}
-            value={value2}
+            value={cityDestination}
             id="combo-box-destino"
             options={destination}
             sx={{ width: 180 }}

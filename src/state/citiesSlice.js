@@ -6,7 +6,7 @@ const initialState ={
 }
 
 const citiesSlice = createSlice({
-  name:'roundTrip',
+  name:'cities',
   initialState,
   reducers:{
     setCitySource(state,action){

@@ -1,3 +1,4 @@
+import { Box } from "@mui/material"
 import { ResponsiveAppBar } from "./components/AppBar"
 import { Hero } from "./components/Hero"
 
@@ -6,11 +7,11 @@ import { Hero } from "./components/Hero"
 function App() {
   
   return (
-    <div>
+    <Box>
       <ResponsiveAppBar/>
       <Hero/>
       
-    </div>
+    </Box>
   )
 }
 

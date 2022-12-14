@@ -6,7 +6,7 @@ import { Panel } from './Panel'
 export const Hero = () => {
   return (
     <Box sx={{
-      height:'60vh',
+      height:'50vh',
       position:'relative'
     }}>
       <img className="hero-img" src={hero} alt="" />

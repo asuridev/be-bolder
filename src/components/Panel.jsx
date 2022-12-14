@@ -1,4 +1,5 @@
 import { Box, Button, Paper } from "@mui/material";
+import { How } from "./How";
 import { RoundTrip } from "./RoundTrip";
 import { When } from "./When";
 import { Where } from "./Where";
@@ -21,6 +22,7 @@ export const Panel = () => {
         <Box sx={{display:'flex'}}>
           <Where />
           <When />
+          <How/>
           {/* <Button variant="contained" color="secondary">Buscar Vuelos</Button> */}
         </Box>
       </Box>

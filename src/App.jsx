@@ -1,7 +1,8 @@
 import { Box } from "@mui/material"
 import { Route, Routes } from "react-router-dom"
 import { ResponsiveAppBar } from "./components/AppBar"
-import { Bookings } from "./components/Bookings"
+import { GoBooking } from "./components/GoBooking"
+
 import { Hero } from "./components/Hero"
 
 
@@ -13,7 +14,7 @@ function App() {
       <ResponsiveAppBar/>
       <Routes>
         <Route path="/" element={ <Hero/>}/>
-        <Route path="/bookings" element={ <Bookings/>}/>
+        <Route path="/go-booking" element={ <GoBooking/>}/>
       </Routes>
     </Box>
   )

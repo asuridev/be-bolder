@@ -8,11 +8,18 @@ import { Where } from "./Where";
 
 export const Panel = () => {
   const navigate = useNavigate()
-  const { cities, date } = useSelector((state) => state);
-  const isBtnEnable =
-    cities.citySource && cities.cityDestination && date.start && date.end;
+  const { cities, date, roundTrip } = useSelector((state) => state);
+  let isBtnEnable ;
 
-    
+  if(roundTrip.value === 'rt'){
+    isBtnEnable =
+    cities.citySource && cities.cityDestination && date.start && date.end;
+  }else if(roundTrip.value === 'ow'){
+    isBtnEnable =
+    cities.citySource && cities.cityDestination && date.start;
+  }
+   
+ 
   return (
     <Paper
       elevation={5}
@@ -39,7 +46,7 @@ export const Panel = () => {
               variant="contained"
               color="secondary"
               size="large"
-              onClick={()=> navigate('bookings')}
+              onClick={()=> navigate('go-booking')}
             >
               Buscar Vuelos
             </Button>

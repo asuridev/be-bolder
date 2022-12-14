@@ -5,20 +5,20 @@ import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { useDispatch, useSelector } from "react-redux";
 import { setDateEnd, setDateStart } from "../state/dateSlice";
+import { format } from "date-fns";
 
 const DateRoundTrip = () => {
-  const [value1, setValue1] = React.useState(null);
-  const [value2, setValue2] = React.useState(null);
+  const {start,end} = useSelector(state => state.date);
   const dispatch = useDispatch();
 
   const handleChangeStart = (newValue) => {
-    setValue1(newValue);
-    dispatch(setDateStart(JSON.stringify(newValue)));
+    const dateWithFormat = format(newValue,'MM/dd/yyyy'); 
+    dispatch(setDateStart(dateWithFormat));
   };
 
   const handleChangeEnd= (newValue) => {
-    setValue2(newValue);
-    dispatch(setDateEnd (JSON.stringify(newValue)));
+    const dateWithFormat = format(newValue,'MM/dd/yyyy');
+    dispatch(setDateEnd (dateWithFormat));
   };
 
   return (
@@ -26,7 +26,7 @@ const DateRoundTrip = () => {
       <Box sx={{ marginRight: "1rem", width: 130 }}>
         <DatePicker
           label="Salida"
-          value={value1}
+          value={start}
           onChange={handleChangeStart}
           renderInput={(params) => <TextField variant="standard" {...params} />}
         />
@@ -34,7 +34,7 @@ const DateRoundTrip = () => {
       <Box sx={{ width: 130 }}>
         <DatePicker
           label="Vuelta"
-          value={value2}
+          value={end}
           onChange={handleChangeEnd}
           renderInput={(params) => <TextField variant="standard" {...params} />}
         />
@@ -44,12 +44,12 @@ const DateRoundTrip = () => {
 };
 
 const DateOnlyWay = () => {
-  const [value, setValue] = React.useState(null);
+  const {start,end} = useSelector(state => state.date);
   const dispatch = useDispatch();
 
   const handleChange = (newValue) => {
-    setValue(newValue);
-    dispatch(setDateStart(JSON.stringify(newValue)));
+    const dateWithFormat = format(newValue,'MM/dd/yyyy');
+    dispatch(setDateStart(dateWithFormat));
     dispatch(setDateEnd(null));
   };
   
@@ -58,7 +58,7 @@ const DateOnlyWay = () => {
       <Box sx={{ width: 260 }}>
         <DatePicker
           label="Fecha de Ida"
-          value={value}
+          value={start}
           onChange={handleChange}
           renderInput={(params) => <TextField variant="standard" {...params} />}
         />

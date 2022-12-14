@@ -46,7 +46,7 @@ export const Panel = () => {
               variant="contained"
               color="secondary"
               size="large"
-              onClick={()=> navigate('go-booking')}
+              onClick={()=> navigate('/go-booking')}
             >
               Buscar Vuelos
             </Button>

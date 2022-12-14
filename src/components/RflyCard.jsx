@@ -5,27 +5,22 @@ import FlightTakeoffIcon from '@mui/icons-material/FlightTakeoff';
 import { setGoBooking, setReturnBooking } from '../state/bookingsSlice';
 import { useNavigate } from 'react-router-dom';
 
-export const FlyCard = ({info}) => {
+export const RflyCard = ({info}) => {
   
   const {cities,roundTrip} = useSelector(state => state);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const handleClick = () =>{
-    dispatch(setGoBooking(info));
-    if(roundTrip.value === 'rt'){
-      navigate('/return-booking')
-    }else{
-      dispatch(setReturnBooking(null));
-      navigate('/info-passenger')
-    }
+    dispatch(setReturnBooking(info));
+    navigate('/info-passenger');
   }
 
   return (
-    <Paper onClick={handleClick} sx={{padding:'2rem',cursor:'pointer',display:'flex', alignItems:'center', border:'1px solid #DEDDDD', marginBottom:'1rem'}}>
+    <Paper onClick={handleClick} sx={{padding:'2rem',cursor:'pointer', display:'flex', alignItems:'center', border:'1px solid #DEDDDD', marginBottom:'1rem'}}>
       <Box sx={{paddingRight:'2rem'}}>
         <Typography sx={{fontWeight:'500'}} variant="h5">{info.horaSalida}</Typography>
-        <Typography>{cities.citySource}</Typography>
+        <Typography>{cities.cityDestination}</Typography>
       </Box>
       
       <Box sx={{flexGrow:'1'}}>
@@ -43,7 +38,7 @@ export const FlyCard = ({info}) => {
 
       <Box sx={{paddingLeft:'2rem'}}>
         <Typography sx={{fontWeight:'500'}} variant="h5">{info.horaLLegada}</Typography>
-        <Typography>{cities.cityDestination}</Typography>
+        <Typography>{cities.citySource}</Typography>
       </Box>
       
       <Divider sx={{margin:'0 2rem'}} orientation="vertical" flexItem/>

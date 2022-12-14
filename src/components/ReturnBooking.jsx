@@ -4,9 +4,9 @@ import FlightTakeoffIcon from "@mui/icons-material/FlightTakeoff";
 import { useSelector } from "react-redux";
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "../firebase/config";
-import { FlyCard } from "./FlyCard";
+import { RflyCard } from "./RflyCard";
 
-export const GoBooking = () => {
+export const ReturnBooking = () => {
   const { roundTrip, cities, date, passengers } = useSelector((state) => state);
   const [isLoading, setLoading] = useState(true);
   const [flights, setFlights] = useState([]);
@@ -43,7 +43,7 @@ export const GoBooking = () => {
             gutterBottom
             variant="h5"
           >
-            {` Salida de ${cities.citySource} a ${cities.cityDestination} - ${date.start}`}
+            {` Salida de ${cities.cityDestination} a ${cities.citySource} - ${date.end}`}
           </Typography>
         </Box>
         {isLoading ? (
@@ -52,7 +52,7 @@ export const GoBooking = () => {
           </Box>
         ) : (
           
-            flights.map(flight => <FlyCard key={flight.avion} info={flight}/>)
+            flights.map(flight => <RflyCard key={flight.avion} info={flight}/>)
           
         )}
       </Paper>

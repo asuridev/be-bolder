@@ -1,4 +1,5 @@
 import { configureStore } from "@reduxjs/toolkit";
+import { bookingsReducer } from "./bookingsSlice";
 import { citiesReducer } from "./citiesSlice";
 import { dateReducer } from "./dateSlice";
 import { passengersReducer } from "./passengersSlice";
@@ -9,6 +10,7 @@ export const store = configureStore({
     roundTrip : roundTripReducer,
     cities:citiesReducer,
     date: dateReducer,
-    passengers: passengersReducer
+    passengers: passengersReducer,
+    bookings:bookingsReducer
   }
 })

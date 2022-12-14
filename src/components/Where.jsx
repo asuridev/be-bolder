@@ -50,10 +50,10 @@ export function Where() {
 
   return (
     <Box sx={{ marginTop: ".5rem" }}>
-      <Typography gutterBottom variant="h4">
+      <Typography gutterBottom sx={{fontWeight:'500'}} variant="h5">
         ¿A dónde viajas?
       </Typography>
-      <Box sx={{ display: "flex" }}>
+      <Box sx={{ display: "flex",marginRight:'2rem' }}>
         <Box sx={{ marginRight: "0.5rem" }}>
           <Autocomplete
             disablePortal
@@ -61,7 +61,7 @@ export function Where() {
              value={value1}
             id="combo-box-demo"
             options={source}
-            sx={{ width: 200 }}
+            sx={{ width: 180 }}
             renderInput={(params) => (
               <TextField {...params} variant="standard" label="Desde" />
             )}
@@ -74,7 +74,7 @@ export function Where() {
             value={value2}
             id="combo-box-destino"
             options={destination}
-            sx={{ width: 200 }}
+            sx={{ width: 180 }}
             renderInput={(params) => (
               <TextField {...params} variant="standard" label="Hacia" />
             )}

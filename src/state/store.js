@@ -4,7 +4,7 @@ import { roundTripReducer } from "./roundTripSlice";
 
 export const store = configureStore({
   reducer:{
-    roundTripe : roundTripReducer,
+    roundTrip : roundTripReducer,
     cities:citiesReducer
   }
 })

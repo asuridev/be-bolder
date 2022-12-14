@@ -9,7 +9,7 @@ import {setRoundTrip} from '../state/roundTripSlice'
 
 export  function RoundTrip() {
   const dispatach = useDispatch();
-  const {value} = useSelector(state => state.roundTripe)
+  const {value} = useSelector(state => state.roundTrip)
 
   const handleChange = (event) => {
        dispatach(setRoundTrip(event.target.value));

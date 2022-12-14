@@ -4,6 +4,8 @@ import { Provider } from "react-redux";
 import App from "./App";
 import "./index.css";
 import { store } from "./state/store";
+import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
+import { LocalizationProvider } from "@mui/x-date-pickers";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   // <React.StrictMode>

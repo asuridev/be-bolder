@@ -23,6 +23,7 @@ import {
 import { useEffect, useState } from "react";
 import { addDoc, collection, getDocs } from "firebase/firestore";
 import { db } from "../firebase/config";
+import axios from "axios";
 
 export const Pay = () => {
   const [isLoading, setLoading] = useState(true);
@@ -37,10 +38,6 @@ export const Pay = () => {
   const { adults, kids, babies } = useSelector((state) => state.passengers);
   const { going, return: back } = useSelector((state) => state.bookings);
   const state = useSelector((state) => state);
-
-
-
-
 
   const calcularDescuentos = async () => {
     //determino la informacion de infantes
@@ -85,13 +82,13 @@ export const Pay = () => {
 
   const handleClose = () => {
     setOpenSuccess(false);
-    navigate('/',{replace:true});
+    navigate("/", { replace: true });
     navigate(0);
   };
 
   // proceso de pago
   const onPay = async () => {
-    setOpen(true);
+    setOpen(true); // abro el backdrop
     const tickets = data.map((info) => ({
       ...info,
       ...state.date,
@@ -101,12 +98,15 @@ export const Pay = () => {
     try {
       for (let data of tickets) {
         const docRef = await addDoc(collection(db, "tickets"), data);
+        const res = await axios.post(
+          "https://us-central1-be-bolder.cloudfunctions.net/generatePdf",
+           data
+        );
       }
-     setOpen(false);
-     setOpenSuccess(true);
+      
+      setOpen(false);
+      setOpenSuccess(true);
     } catch (error) {}
-
-    
   };
 
   useEffect(() => {
@@ -127,11 +127,12 @@ export const Pay = () => {
         aria-describedby="alert-dialog-description"
       >
         <DialogTitle id="alert-dialog-title">
-        🎉🎉 Felicidades Tu Compra fue Realizada con Exito
+          🎉🎉 Felicidades Tu Compra fue Realizada con Exito
         </DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
-           En un Momento Recibiran los correos Electronicos con la los tickets de su viajes
+            En un Momento Recibiran los correos Electronicos con la los tickets
+            de su viajes
           </DialogContentText>
         </DialogContent>
         <DialogActions>
@@ -141,8 +142,6 @@ export const Pay = () => {
           </Button>
         </DialogActions>
       </Dialog>
-
-      
 
       <Backdrop
         sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}

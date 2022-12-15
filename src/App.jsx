@@ -5,6 +5,7 @@ import { GoBooking } from "./components/GoBooking"
 
 import { Hero } from "./components/Hero"
 import { InfoPassengers } from "./components/InfoPassengers"
+import { Pay } from "./components/Pay"
 import { ReturnBooking } from "./components/ReturnBooking"
 
 
@@ -19,6 +20,7 @@ function App() {
         <Route path="/go-booking" element={ <GoBooking/>}/>
         <Route path="/return-booking" element={ <ReturnBooking/>}/>
         <Route path="/info-passenger" element={ <InfoPassengers/>}/>
+        <Route path="/pay" element={ <Pay/>}/>
       </Routes>
     </Box>
   )

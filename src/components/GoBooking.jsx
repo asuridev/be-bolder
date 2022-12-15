@@ -7,7 +7,7 @@ import { db } from "../firebase/config";
 import { FlyCard } from "./FlyCard";
 
 export const GoBooking = () => {
-  const { roundTrip, cities, date, passengers } = useSelector((state) => state);
+  const { cities, date } = useSelector((state) => state);
   const [isLoading, setLoading] = useState(true);
   const [flights, setFlights] = useState([]);
 

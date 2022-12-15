@@ -118,7 +118,7 @@ export const Pay = () => {
       sx={{
         backgroundColor: "#f3f2f2",
         minHeight: "100vh",
-        padding: "1rem 3rem",
+        padding: "1rem 17rem",
       }}
     >
       <Dialog

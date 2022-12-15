@@ -2,9 +2,15 @@ import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import FlightTakeoffIcon from "@mui/icons-material/FlightTakeoff";
 import {
+  Backdrop,
   Box,
   Button,
   CircularProgress,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
   Paper,
   Table,
   TableBody,
@@ -15,12 +21,14 @@ import {
   Typography,
 } from "@mui/material";
 import { useEffect, useState } from "react";
-import { collection, getDocs } from "firebase/firestore";
+import { addDoc, collection, getDocs } from "firebase/firestore";
 import { db } from "../firebase/config";
 
 export const Pay = () => {
   const [isLoading, setLoading] = useState(true);
   const [neto, setNeto] = useState(0);
+  const [open, setOpen] = useState(false);
+  const [openSuccess, setOpenSuccess] = useState(false);
   const [infoBabies, setInfoBabies] = useState([]);
   const [dataWithDescuento, setDescuento] = useState([]);
   const navigate = useNavigate();
@@ -28,6 +36,11 @@ export const Pay = () => {
   const { data } = useSelector((state) => state.infoPassenger);
   const { adults, kids, babies } = useSelector((state) => state.passengers);
   const { going, return: back } = useSelector((state) => state.bookings);
+  const state = useSelector((state) => state);
+
+
+
+
 
   const calcularDescuentos = async () => {
     //determino la informacion de infantes
@@ -70,9 +83,31 @@ export const Pay = () => {
     setDescuento(withDescuento);
   };
 
-  const onPay = ()=>{
+  const handleClose = () => {
+    setOpenSuccess(false);
+    navigate('/',{replace:true});
+    navigate(0);
+  };
+
+  // proceso de pago
+  const onPay = async () => {
+    setOpen(true);
+    const tickets = data.map((info) => ({
+      ...info,
+      ...state.date,
+      ...state.bookings,
+      ...state.cities,
+    }));
+    try {
+      for (let data of tickets) {
+        const docRef = await addDoc(collection(db, "tickets"), data);
+      }
+     setOpen(false);
+     setOpenSuccess(true);
+    } catch (error) {}
+
     
-  }
+  };
 
   useEffect(() => {
     calcularDescuentos();
@@ -86,6 +121,36 @@ export const Pay = () => {
         padding: "1rem 3rem",
       }}
     >
+      <Dialog
+        open={openSuccess}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">
+        🎉🎉 Felicidades Tu Compra fue Realizada con Exito
+        </DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+           En un Momento Recibiran los correos Electronicos con la los tickets de su viajes
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          {/* <Button onClick={handleClose}>Disagree</Button> */}
+          <Button color="success" onClick={handleClose} autoFocus>
+            Aceptar
+          </Button>
+        </DialogActions>
+      </Dialog>
+
+      
+
+      <Backdrop
+        sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
+        open={open}
+      >
+        <CircularProgress size={100} color="primary" />
+      </Backdrop>
+
       <Paper
         sx={{ backgroundColor: "#fff", padding: "2rem", position: "relative" }}
       >
@@ -161,7 +226,7 @@ export const Pay = () => {
         )}
         <Button
           sx={{
-            padding:'0.6rem 4rem',
+            padding: "0.6rem 4rem",
             position: "absolute",
             bottom: "0",
             left: "50%",

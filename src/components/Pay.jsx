@@ -21,7 +21,7 @@ import {
   Typography,
 } from "@mui/material";
 import { useEffect, useState } from "react";
-import { addDoc, collection, getDocs } from "firebase/firestore";
+import { addDoc, collection, getDocs, query, where } from "firebase/firestore";
 import { db } from "../firebase/config";
 import axios from "axios";
 
@@ -41,6 +41,7 @@ export const Pay = () => {
 
   const calcularDescuentos = async () => {
     //determino la informacion de infantes
+    setOpen(true);
     const arrBabies = [];
     for (let i = 0; i < babies; i++) {
       let descuento = 90;
@@ -49,20 +50,36 @@ export const Pay = () => {
       arrBabies.push({ key: `infante-${i + 1}`, descuento, valor, total });
     }
     //pendiente consultar base de datos para agregar descuentos
-    const withDescuento = data.map((item) => {
+
+    const withDescuento = [];
+
+    for (let item of data) {
       let descuento = 0;
+      //<-
+      const citiesRef = collection(db, "tickets");
+      const q = query(
+        collection(db, "tickets"),
+        where("id", "==", `${item.id}`)
+      );
+      const querySnapshot = await getDocs(q);
+      const dataQuey = [];
+      querySnapshot.forEach((doc) => {
+        dataQuey.push(doc.data());
+      });
+      if(dataQuey.length > 0){
+        descuento += 5;
+      }
+      if(dataQuey.length > 10){
+        descuento += 5;
+      }
+
       if (Number(item.age) > 65) {
         descuento += 3;
       }
-
-      //seguir trabajando aqui.
-
-      // agregando informacion de total y descuento
       let valor = going?.precio + (back?.precio ?? 0);
       let total = valor - valor * (descuento / 100);
-      return { ...item, valor, total, descuento };
-    });
-    // fin
+      withDescuento.push({ ...item, valor, total, descuento });
+    }
 
     //calculo del valor total
     const totalAdultosYniños = withDescuento.reduce(
@@ -78,6 +95,7 @@ export const Pay = () => {
     setNeto(totalPagar);
     setLoading(false);
     setDescuento(withDescuento);
+    setOpen(false);
   };
 
   const handleClose = () => {
@@ -100,10 +118,10 @@ export const Pay = () => {
         const docRef = await addDoc(collection(db, "tickets"), data);
         const res = await axios.post(
           "https://us-central1-be-bolder.cloudfunctions.net/generatePdf",
-           data
+          data
         );
       }
-      
+
       setOpen(false);
       setOpenSuccess(true);
     } catch (error) {}
@@ -131,8 +149,8 @@ export const Pay = () => {
         </DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
-            En un Momento Recibiran los correos Electronicos con la los tickets
-            de su viajes
+            En un Momento Recibiran los correos Electronicos con los tickets de
+            su viajes
           </DialogContentText>
         </DialogContent>
         <DialogActions>
